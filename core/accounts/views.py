@@ -1,0 +1,87 @@
+from django.shortcuts import render, redirect
+from .forms import ManagerRegistrationForm, StudentRegistrationForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+
+
+
+# Common logout view
+def logout_view(request):
+    logout(request)
+    return redirect('accounts:home')  # or student login depending on user type
+
+def home_view(request):
+    manager_form = ManagerRegistrationForm()
+    student_form = StudentRegistrationForm()
+    return render(request, 'accounts/home.html', {
+        'manager_form': manager_form,
+        'student_form': student_form
+    })
+    
+def manager_register(request):
+    if request.method == 'POST':
+        form = ManagerRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:manager_login')
+    else:
+        form = ManagerRegistrationForm()
+    return render(request, 'accounts/manager_register.html', {'form': form})
+
+def student_register(request):
+    if request.method == 'POST':
+        form = StudentRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:student_login')
+    else:
+        form = StudentRegistrationForm()
+    return render(request, 'accounts/student_register.html', {'form': form})
+
+
+# Manager Login View
+def manager_login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None and user.user_type == 'manager':
+            login(request, user)
+            return redirect('accounts:manager_dashboard')
+        else:
+            error = "Invalid credentials or not a manager"
+            return render(request, 'accounts/manager_login.html', {'error': error})
+    return render(request, 'accounts/manager_login.html')
+
+# Student Login View
+def student_login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None and user.user_type == 'student':
+            login(request, user)
+            return redirect('accounts:student_dashboard')
+        else:
+            error = "Invalid credentials or not a student"
+            return render(request, 'accounts/student_login.html', {'error': error})
+    return render(request, 'accounts/student_login.html')
+
+# Manager Dashboard
+@login_required
+def manager_dashboard(request):
+    
+    
+    if request.user.user_type != 'manager':
+        return redirect('student_dashboard')
+    
+    total_school = SchoolProfile.objects.filter(manager = request.user )
+    
+    return render(request, 'accounts/manager_dashboard.html' , {'data':total_school})
+
+# Student Dashboard
+@login_required
+def student_dashboard(request):
+    if request.user.user_type != 'student':
+        return redirect('accounts:manager_dashboard')
+    return render(request, 'accounts/student_dashboard.html')

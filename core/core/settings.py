@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'MainAddress.apps.MainaddressConfig',
     'manager.apps.ManagerConfig' , 
     'student.apps.StudentConfig' ,
+    'school.apps.SchoolConfig'   ,  
     
 ]
 

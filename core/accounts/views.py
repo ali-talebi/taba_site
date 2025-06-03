@@ -21,6 +21,13 @@ def home_view(request):
     })
     
 def manager_register(request):
+    
+    if request.user.is_authenticated :
+        if request.user.user_type == 'manager': 
+            return redirect('accounts:manager_dashboard')
+        else : 
+            return redirect('accounts:student_dashboard')
+    
     if request.method == 'POST':
         form = ManagerRegistrationForm(request.POST)
         if form.is_valid():
@@ -33,6 +40,14 @@ def manager_register(request):
     return render(request, 'accounts/manager_register.html', {'form': form})
 
 def student_register(request):
+    
+    if request.user.is_authenticated :
+        if request.user.user_type == 'manager': 
+            return redirect('accounts:manager_dashboard')
+        else : 
+            return redirect('accounts:student_dashboard')
+    
+    
     if request.method == 'POST':
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
@@ -44,13 +59,20 @@ def student_register(request):
 
 # Manager Login View
 def manager_login(request):
+    
+    if request.user.is_authenticated :
+        if request.user.user_type == 'manager': 
+            return redirect('accounts:manager_dashboard')
+        else : 
+            return redirect('accounts:student_dashboard')
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
         if user is not None and user.user_type == 'manager':
             login(request, user)
-            return redirect('accounts:manager_dashboard')
+            return redirect('manager:manager_dashboard')
         else:
             error = "Invalid credentials or not a manager"
             return render(request, 'accounts/manager_login.html', {'error': error})
@@ -58,6 +80,13 @@ def manager_login(request):
 
 # Student Login View
 def student_login(request):
+    
+    if request.user.is_authenticated :
+        if request.user.user_type == 'manager': 
+            return redirect('accounts:manager_dashboard')
+        else : 
+            return redirect('accounts:student_dashboard')
+        
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')

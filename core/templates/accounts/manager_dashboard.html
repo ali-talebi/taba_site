@@ -69,6 +69,11 @@
             border-color: #198754;
         }
 
+        .btn-info {
+            background-color: #0dcaf0;
+            border-color: #0dcaf0;
+        }
+
         .btn-custom:hover {
             opacity: 0.9;
         }
@@ -88,7 +93,18 @@
 <body>
 
 <div class="dashboard-container">
-    <h2 class="text-center">داشبورد مدیر</h2>
+
+    <!-- قسمت عکس پروفایل -->
+    <div class="d-flex align-items-center mb-4">
+        <img src="https://via.placeholder.com/80"  alt="عکس پروفایل"
+             class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+        <div>
+            <h5 class="mb-0 fw-bold">مدیر محترم</h5>
+            <small class="text-muted">admin@example.com</small>
+        </div>
+    </div>
+
+    <h2 class="text-center mb-4">داشبورد مدیر</h2>
 
     <!-- Tabs -->
     <ul class="nav nav-tabs mb-4 justify-content-center" id="managerTabs" role="tablist">
@@ -96,6 +112,12 @@
             <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">
                 <span class="material-icons align-middle">person</span>
                 <span class="ms-1">پروفایل</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="school-tab" data-bs-toggle="tab" data-bs-target="#school" type="button" role="tab">
+                <span class="material-icons align-middle">school</span>
+                <span class="ms-1">اطلاعات مدرسه</span>
             </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -116,7 +138,8 @@
                 <!-- شماره تماس اول -->
                 <div class="mb-3">
                     <label for="id_phone_number1" class="form-label">شماره تماس اول:</label>
-                    <input type="text" name="phone_number1" id="id_phone_number1" class="form-control" placeholder="مثال: 09123456789"
+                    <input type="text" name="phone_number1" id="id_phone_number1" class="form-control"
+                           placeholder="مثال: 09123456789"
                            value="{{ profile_form.phone_number1.value|default:'' }}">
                     {% if profile_form.phone_number1.errors %}
                         <div class="text-danger">{{ profile_form.phone_number1.errors.0 }}</div>
@@ -126,7 +149,8 @@
                 <!-- شماره تماس دوم -->
                 <div class="mb-3">
                     <label for="id_phone_number2" class="form-label">شماره تماس دوم (اختیاری):</label>
-                    <input type="text" name="phone_number2" id="id_phone_number2" class="form-control" placeholder="مثال: 09123456789"
+                    <input type="text" name="phone_number2" id="id_phone_number2" class="form-control"
+                           placeholder="مثال: 09123456789"
                            value="{{ profile_form.phone_number2.value|default:'' }}">
                     {% if profile_form.phone_number2.errors %}
                         <div class="text-danger">{{ profile_form.phone_number2.errors.0 }}</div>
@@ -137,9 +161,10 @@
                 <div class="mb-3">
                     <label for="id_address" class="form-label">استان:</label>
                     <select name="address" id="id_address" class="form-select">
-                        {% for choice in address_choices %}
-                            <option value="{{ choice.0 }}" {% if profile_form.address.value == choice.0 %}selected{% endif %}>
-                                {{ choice.1 }}
+                        <option value="">انتخاب کنید</option>
+                        {% for province in provinces %}
+                            <option value="{{ province.id }}" {% if profile_form.address.value == province.id|stringformat:"s" %}selected{% endif %}>
+                                {{ province.name }}
                             </option>
                         {% endfor %}
                     </select>
@@ -162,7 +187,83 @@
             </form>
         </div>
 
-        <!-- Tab 2: Documents -->
+        <!-- Tab 2: School -->
+        <div class="tab-pane fade" id="school" role="tabpanel">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- نام مدرسه -->
+                <div class="mb-3">
+                    <label for="id_school_name" class="form-label">نام مدرسه:</label>
+                    <input type="text" name="school_name" id="id_school_name" class="form-control"
+                           value="{{ school_form.school_name.value|default:'' }}">
+                    {% if school_form.school_name.errors %}
+                        <div class="text-danger">{{ school_form.school_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- لوگو -->
+                <div class="mb-3">
+                    <label for="id_logo" class="form-label">لوگوی مدرسه:</label>
+                    <input type="file" name="logo" id="id_logo" class="form-control">
+                    {% if school_form.logo.errors %}
+                        <div class="text-danger">{{ school_form.logo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- استان -->
+                <div class="mb-3">
+                    <label for="id_school_address" class="form-label">استان:</label>
+                    <select name="address" id="id_school_address" class="form-select">
+                        <option value="">انتخاب کنید</option>
+                        {% for province in provinces %}
+                            <option value="{{ province.id }}" {% if school_form.address.value == province.id|stringformat:"s" %}selected{% endif %}>
+                                {{ province.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% if school_form.address.errors %}
+                        <div class="text-danger">{{ school_form.address.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" name="save_school" class="btn btn-success btn-custom w-100">ثبت اطلاعات مدرسه</button>
+            </form>
+
+            <hr>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- نام سطح تحصیلی -->
+                <div class="mb-3">
+                    <label for="id_name_level" class="form-label">نام سطح تحصیلی:</label>
+                    <input type="text" name="name_level" id="id_name_level" class="form-control"
+                           value="{{ level_form.name_level.value|default:'' }}">
+                    {% if level_form.name_level.errors %}
+                        <div class="text-danger">{{ level_form.name_level.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- رشته‌ها -->
+                <div class="mb-3">
+                    <label class="form-label">رشته‌های تحصیلی:</label><br>
+                    {% for field in level_form.fields.queryset %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="fields" id="field_{{ field.id }}" value="{{ field.id }}">
+                            <label class="form-check-label" for="field_{{ field.id }}">{{ field.field_name }}</label>
+                        </div>
+                    {% endfor %}
+                    {% if level_form.fields.errors %}
+                        <div class="text-danger">{{ level_form.fields.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" name="save_level" class="btn btn-info btn-custom w-100 text-white">ثبت سطح و رشته</button>
+            </form>
+        </div>
+
+        <!-- Tab 3: Documents -->
         <div class="tab-pane fade" id="documents" role="tabpanel">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}

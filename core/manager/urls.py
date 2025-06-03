@@ -1,0 +1,8 @@
+from django.urls import path
+from .views import manager_dashboard
+
+
+app_name = "manager"
+urlpatterns = [
+    path('manager/dashboard/', manager_dashboard, name='manager_dashboard'),
+]

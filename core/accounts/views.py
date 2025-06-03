@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from .forms import ManagerRegistrationForm, StudentRegistrationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from school.models import SchoolInformation
+from manager.models import ManagerInformation 
 
 
 
 # Common logout view
 def logout_view(request):
     logout(request)
-    return redirect('accounts:home')  # or student login depending on user type
+    return redirect('accounts:login')  # or student login depending on user type
 
 def home_view(request):
     manager_form = ManagerRegistrationForm()
@@ -22,10 +24,12 @@ def manager_register(request):
     if request.method == 'POST':
         form = ManagerRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('accounts:manager_login')
+            user = form.save()
+            login(request, user)  # اختیاری: بعد از ثبت نام وارد شود
+            return redirect('accounts:login')  # جایگزین کن با اسم url مناسب
     else:
         form = ManagerRegistrationForm()
+    
     return render(request, 'accounts/manager_register.html', {'form': form})
 
 def student_register(request):
@@ -33,11 +37,10 @@ def student_register(request):
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('accounts:student_login')
+            return redirect('accounts:login')
     else:
         form = StudentRegistrationForm()
     return render(request, 'accounts/student_register.html', {'form': form})
-
 
 # Manager Login View
 def manager_login(request):
@@ -75,13 +78,13 @@ def manager_dashboard(request):
     if request.user.user_type != 'manager':
         return redirect('student_dashboard')
     
-    total_school = SchoolProfile.objects.filter(manager = request.user )
+    # total_school = ManagerInformation.objects.filter(manager = request.user )
     
-    return render(request, 'accounts/manager_dashboard.html' , {'data':total_school})
+    return render(request, 'accounts/manager_dashboard.html' , {'data':None})
 
 # Student Dashboard
 @login_required
 def student_dashboard(request):
     if request.user.user_type != 'student':
         return redirect('accounts:manager_dashboard')
-    return render(request, 'accounts/student_dashboard.html')
+    return render(request, 'accounts/student_login.html' , {})

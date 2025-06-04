@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>داشبورد دانش آموز</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"  rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"  rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f1f3f6;
+        }
+        .dashboard-menu {
+            max-width: 600px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .menu-item {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+{% block navbar %}
+
+    {% include "base_template/just_navbar.html" %}
+
+{% endblock navbar %}
+
+<div class="dashboard-menu">
+    <h2>داشبورد دانش آموز</h2>
+
+    <div class="menu-item">
+        <a href="{% url 'student:student_profile_form' %}" class="btn btn-primary w-100 py-3">تکمیل پروفایل کاربری</a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'student:student_authentication_form' %}" class="btn btn-success w-100 py-3">مدارک هویتی</a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'student:student_education_form' %}" class="btn btn-info w-100 py-3 text-white">مدارک تحصیلی</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+</body>
+</html>

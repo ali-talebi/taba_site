@@ -13,6 +13,13 @@ def logout_view(request):
     return redirect('accounts:login')  # or student login depending on user type
 
 def home_view(request):
+    
+    if request.user.is_authenticated :
+        if request.user.user_type == 'manager': 
+            return redirect('manager:manager_dashboard')
+        else : 
+            return redirect('accounts:student_dashboard')
+    
     manager_form = ManagerRegistrationForm()
     student_form = StudentRegistrationForm()
     return render(request, 'accounts/home.html', {
@@ -26,7 +33,7 @@ def manager_register(request):
         if request.user.user_type == 'manager': 
             return redirect('manager:manager_dashboard')
         else : 
-            return redirect('accounts:student_dashboard')
+            return redirect('student:student_dashboard')
     
     if request.method == 'POST':
         form = ManagerRegistrationForm(request.POST)
@@ -62,9 +69,9 @@ def manager_login(request):
     
     if request.user.is_authenticated :
         if request.user.user_type == 'manager': 
-            return redirect('accounts:manager_dashboard')
+            return redirect('manager:manager_dashboard')
         else : 
-            return redirect('accounts:student_dashboard')
+            return redirect('student:student_dashboard')
     
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -83,9 +90,9 @@ def student_login(request):
     
     if request.user.is_authenticated :
         if request.user.user_type == 'manager': 
-            return redirect('accounts:manager_dashboard')
+            return redirect('manager:manager_dashboard')
         else : 
-            return redirect('accounts:student_dashboard')
+            return redirect('student:student_dashboard')
         
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -93,7 +100,7 @@ def student_login(request):
         user = authenticate(request, username=email, password=password)
         if user is not None and user.user_type == 'student':
             login(request, user)
-            return redirect('accounts:student_dashboard')
+            return redirect('student:student_dashboard')
         else:
             error = "Invalid credentials or not a student"
             return render(request, 'accounts/student_login.html', {'error': error})

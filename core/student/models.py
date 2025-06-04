@@ -46,7 +46,7 @@ class Document_Authenticate_Student(models.Model) :
     status_document_authentication = models.CharField(verbose_name='وضعیت مدارک هویتی' ,max_length=15 , choices=STATUS_CHOICES , default='no_check' , null = True  ) 
     
     def __str__(self):
-        return self.student.email 
+        return self.student.client_student.email 
     
     class Meta : 
         db_table = 'Document_Authenticate_Student'

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>جزئیات ثبت‌نام شما</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-tr from-blue-50 via-white to-blue-50 min-h-screen flex items-center justify-center font-vazir">
+    <div class="bg-white max-w-md w-full rounded-2xl shadow-lg p-8 space-y-6">
+        <h2 class="text-3xl font-extrabold text-center text-blue-700 mb-6 select-none">📋 اطلاعات ثبت‌نام شما</h2>
+
+        {% if enrollment %}
+        <ul class="space-y-4 text-gray-700 text-lg">
+            <li class="flex justify-between border-b border-gray-200 pb-3">
+                <span class="font-semibold">سال تحصیلی:</span>
+                <span>{{ enrollment.academic_year }}</span>
+            </li>
+            <li class="flex justify-between border-b border-gray-200 pb-3">
+                <span class="font-semibold">مقطع تحصیلی:</span>
+                <span>{{ enrollment.grade.name_level }}</span>
+            </li>
+            <li class="flex justify-between border-b border-gray-200 pb-3">
+                <span class="font-semibold">رشته تحصیلی:</span>
+                <span>{{ enrollment.field.field_name }}</span>
+            </li>
+            <li class="flex justify-between border-b border-gray-200 pb-3">
+                <span class="font-semibold">وضعیت ثبت‌نام:</span>
+                <span class="{% if enrollment.approved %}text-green-600 font-bold{% else %}text-yellow-600 font-semibold{% endif %}">
+                    {% if enrollment.approved %}
+                        تایید شده ✅
+                    {% else %}
+                        در انتظار تایید ⏳
+                    {% endif %}
+                </span>
+            </li>
+            <li class="flex justify-between">
+                <span class="font-semibold">تاریخ ثبت‌نام:</span>
+                <span>{{ enrollment.created_at|date:"Y/m/d H:i" }}</span>
+            </li>
+        </ul>
+        {% else %}
+        <p class="text-center text-gray-400 text-lg select-none">شما هنوز ثبت‌نامی انجام نداده‌اید.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

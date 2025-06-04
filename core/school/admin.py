@@ -11,15 +11,15 @@ class Field_Education_School_Admin(admin.ModelAdmin):
 
 
 @admin.register(Level_Education_School)
-class Level_Education_School_Admin(admin.ModelAdmin):
-    list_display = ('name_level' , 'school' ,'Total_Fields') 
-    list_filter  = ('name_level' , ) 
+class LevelEducationAdmin(admin.ModelAdmin):
+    list_display = ['school', 'name_level', 'get_education_fields']
+
+    def get_education_fields(self, obj):
+        return ", ".join([field.field_name for field in obj.education_fields.all()])
     
+    get_education_fields.short_description = "رشته‌های تحصیلی"
     
-    def Total_Fields(self,obj):
-        total_fields = ' | '.join([ i.field_name for i in obj.fields.all() ])
-        return total_fields 
-    Total_Fields.short_description = " رشته های تحصیلی مدرسه "
+
 
 @admin.register(SchoolInformation)
 class SchoolInformation_Admin(admin.ModelAdmin):

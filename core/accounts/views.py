@@ -18,7 +18,7 @@ def home_view(request):
         if request.user.user_type == 'manager': 
             return redirect('manager:manager_dashboard')
         else : 
-            return redirect('accounts:student_dashboard')
+            return redirect('student:student_dashboard')
     
     manager_form = ManagerRegistrationForm()
     student_form = StudentRegistrationForm()

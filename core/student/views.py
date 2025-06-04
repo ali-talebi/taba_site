@@ -25,7 +25,7 @@ def student_profile_form_view(request):
         profile_form = StudentProfileForm(request.POST, instance=student_info)
         if profile_form.is_valid():
             profile_form.save()
-            return redirect('student_dashboard')
+            return redirect('student:student_dashboard')
 
     return render(request, 'student/student_profile_form.html', {
         'profile_form': profile_form,

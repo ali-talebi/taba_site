@@ -21,27 +21,17 @@ class AcademicYear(models.Model):
         db_table = 'AcademicYear'
         verbose_name_plural = 'سال تحصیلی'
         
-        
-
 class Enrollment(models.Model):
-    student = models.ForeignKey(StudentInformation, on_delete=models.CASCADE, verbose_name=_("دانش‌آموز"))
-    academic_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT, verbose_name=_("سال تحصیلی"))
-    grade = models.ForeignKey(Level_Education_School, on_delete=models.PROTECT, verbose_name=_("مقطع تحصیلی"))
-    field = models.ForeignKey(Field_Education_School , on_delete=models.CASCADE , verbose_name='رشته تحصیلی' )
-    approved = models.BooleanField(default=False, verbose_name=_("تایید شده؟"))
+    student = models.ForeignKey(StudentInformation, on_delete=models.CASCADE)
+    academic_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
+    grade = models.ForeignKey(Level_Education_School, on_delete=models.PROTECT)
+    field = models.ForeignKey(Field_Education_School, on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('student', 'academic_year', 'grade')
 
     def __str__(self):
         status = "تایید شده" if self.approved else "در انتظار"
         return f"{self.student} - {self.grade} ({self.academic_year}) - {status}"
-    
-    class Meta :
-        db_table = 'Enrollment'
-        verbose_name_plural = 'ثبت نام '
-
 
 # نتیجه امتحانات دانش‌آموز
 class ExamResult(models.Model):

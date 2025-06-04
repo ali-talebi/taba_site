@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>درخواست ثبت نام</title>
+
+    <!-- Bootstrap CSS (cdn) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+        }
+        label {
+            font-weight: 600;
+            color: #555;
+        }
+        select.form-select {
+            padding-right: 3rem !important; /* جا برای فلش */
+            direction: rtl;
+        }
+        option.hidden {
+            display: none;
+        }
+        .btn-submit {
+            background: #007bff;
+            border: none;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        .btn-submit:hover {
+            background: #0056b3;
+        }
+        .form-text {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            margin-top: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container shadow-sm">
+    <h1>درخواست ثبت نام</h1>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label for="id_academic_year" class="form-label">سال تحصیلی</label>
+            <select class="form-select" name="{{ form.academic_year.name }}" id="id_academic_year" required>
+                <option value="">انتخاب سال تحصیلی</option>
+                {% for year in form.fields.academic_year.queryset %}
+                    <option value="{{ year.id }}" {% if form.instance.academic_year and form.instance.academic_year.id == year.id %}selected{% endif %}>
+                        {{ year.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="id_grade" class="form-label">مقطع تحصیلی</label>
+            <select class="form-select" name="{{ form.grade.name }}" id="id_grade" required>
+                <option value="">انتخاب مقطع</option>
+                {% for level in levels %}
+                    <option value="{{ level.id }}" {% if form.instance.grade and form.instance.grade.id == level.id %}selected{% endif %}>
+                        {{ level.name_level }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="id_field" class="form-label">رشته تحصیلی</label>
+            <select class="form-select" name="{{ form.field.name }}" id="id_field" required>
+                <option value="">انتخاب رشته</option>
+                {% for field in fields %}
+                    <option value="{{ field.id }}" data-level="{{ field.level_education_school.id }}"
+                        {% if form.instance.field and form.instance.field.id == field.id %}selected{% endif %}>
+                        {{ field.field_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-submit w-100">ثبت درخواست</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const gradeSelect = document.getElementById('id_grade');
+        const fieldSelect = document.getElementById('id_field');
+
+        function filterFields() {
+            const selectedGrade = gradeSelect.value;
+            for (let i = 0; i < fieldSelect.options.length; i++) {
+                const option = fieldSelect.options[i];
+                if (option.getAttribute('data-level') === selectedGrade) {
+                    option.classList.remove('hidden');
+                } else {
+                    option.classList.add('hidden');
+                }
+            }
+            // اگر رشته انتخاب شده حالا مخفی شده، اولین رشته مرتبط رو انتخاب کن
+            if (fieldSelect.options[fieldSelect.selectedIndex].classList.contains('hidden')) {
+                for (let i = 0; i < fieldSelect.options.length; i++) {
+                    if (!fieldSelect.options[i].classList.contains('hidden')) {
+                        fieldSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        filterFields();
+        gradeSelect.addEventListener('change', filterFields);
+    });
+</script>
+
+</body>
+</html>

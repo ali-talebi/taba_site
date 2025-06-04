@@ -24,6 +24,7 @@ urlpatterns = [
     path('' , include('accounts.urls')), 
     path('manager/' , include('manager.urls')) , 
     path('student/' , include('student.urls')) , 
+    path('enrollment/' , include('Academic.urls')) , 
 ]
 
 if settings.DEBUG : 

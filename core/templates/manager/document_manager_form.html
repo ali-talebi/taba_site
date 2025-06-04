@@ -17,12 +17,27 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+        h3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .file-status {
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+        .file-status.success {
+            color: green;
+        }
+        .file-status.danger {
+            color: red;
+        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <h3 class="text-center mb-4">ثبت مدارک هویتی</h3>
+    <h3>ثبت مدارک هویتی</h3>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -31,36 +46,61 @@
         <div class="mb-3">
             <label for="id_doc1" class="form-label">سند 1 احراز هویت کاربری:</label>
             <input type="file" name="doc1" id="id_doc1" class="form-control">
-            {% if documents_form.doc1.errors %}
-                <div class="text-danger">{{ documents_form.doc1.errors.0 }}</div>
-            {% endif %}
+            <br>
+            <!-- وضعیت فایل فعلی -->
+            <div class="file-status {% if document_instance.doc1 %}success{% else %}danger{% endif %}">
+                {% if document_instance.doc1 %}
+                    ✅ فایل آپلود شده: 
+                    <a href="{{ document_instance.doc1.url }}" target="_blank">{{ document_instance.doc1.name }}</a>
+                {% else %}
+                    ❌ هنوز آپلود نشده
+                {% endif %}
+            </div>
         </div>
 
         <!-- سند 2 -->
         <div class="mb-3">
             <label for="id_doc2" class="form-label">سند 2 احراز هویت کاربری:</label>
             <input type="file" name="doc2" id="id_doc2" class="form-control">
-            {% if documents_form.doc2.errors %}
-                <div class="text-danger">{{ documents_form.doc2.errors.0 }}</div>
-            {% endif %}
+            <br>
+            <div class="file-status {% if document_instance.doc2 %}success{% else %}danger{% endif %}">
+                {% if document_instance.doc2 %}
+                    ✅ فایل آپلود شده: 
+                    <a href="{{ document_instance.doc2.url }}" target="_blank">{{ document_instance.doc2.name }}</a>
+                {% else %}
+                    ❌ هنوز آپلود نشده
+                {% endif %}
+            </div>
         </div>
 
         <!-- سند 3 -->
         <div class="mb-3">
             <label for="id_doc3" class="form-label">سند 3 احراز هویت کاربری:</label>
             <input type="file" name="doc3" id="id_doc3" class="form-control">
-            {% if documents_form.doc3.errors %}
-                <div class="text-danger">{{ documents_form.doc3.errors.0 }}</div>
-            {% endif %}
+            <br>
+            <div class="file-status {% if document_instance.doc3 %}success{% else %}danger{% endif %}">
+                {% if document_instance.doc3 %}
+                    ✅ فایل آپلود شده: 
+                    <a href="{{ document_instance.doc3.url }}" target="_blank">{{ document_instance.doc3.name }}</a>
+                {% else %}
+                    ❌ هنوز آپلود نشده
+                {% endif %}
+            </div>
         </div>
 
         <!-- سند 4 -->
         <div class="mb-3">
             <label for="id_doc4" class="form-label">سند 4 احراز هویت کاربری:</label>
             <input type="file" name="doc4" id="id_doc4" class="form-control">
-            {% if documents_form.doc4.errors %}
-                <div class="text-danger">{{ documents_form.doc4.errors.0 }}</div>
-            {% endif %}
+            <br>
+            <div class="file-status {% if document_instance.doc4 %}success{% else %}danger{% endif %}">
+                {% if document_instance.doc4 %}
+                    ✅ فایل آپلود شده: 
+                    <a href="{{ document_instance.doc4.url }}" target="_blank">{{ document_instance.doc4.name }}</a>
+                {% else %}
+                    ❌ هنوز آپلود نشده
+                {% endif %}
+            </div>
         </div>
 
         <button type="submit" name="save_documents" class="btn btn-success w-100">ثبت مدارک</button>

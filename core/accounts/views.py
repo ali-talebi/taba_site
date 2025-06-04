@@ -24,7 +24,7 @@ def manager_register(request):
     
     if request.user.is_authenticated :
         if request.user.user_type == 'manager': 
-            return redirect('accounts:manager_dashboard')
+            return redirect('manager:manager_dashboard')
         else : 
             return redirect('accounts:student_dashboard')
     

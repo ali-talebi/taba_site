@@ -35,27 +35,27 @@ def manager_dashboard(request):
     
     
     if request.method == 'POST':
-        if 'save_profile' in request.POST:
-            profile_form = ManagerProfileForm(request.POST, instance=manager_info)
-            if profile_form.is_valid():
-                profile_form.save()
+        # if 'save_profile' in request.POST:
+        profile_form = ManagerProfileForm(request.POST, instance=manager_info)
+        if profile_form.is_valid():
+            profile_form.save()
 
-        elif 'save_documents' in request.POST:
-            documents_form = ManagerDocumentsForm(request.POST, request.FILES, instance=manager_info.documentmanager)
-            if documents_form.is_valid():
-                documents_form.save()
+        # elif 'save_documents' in request.POST:
+        documents_form = ManagerDocumentsForm(request.POST, request.FILES, instance=manager_info.documentmanager)
+        if documents_form.is_valid():
+            documents_form.save()
 
-        elif 'save_school' in request.POST:
-            school_form = SchoolInformationForm(request.POST, request.FILES, instance=school_info)
-            if school_form.is_valid():
-                school = school_form.save(commit=False)
-                school.manager = manager_info
-                school.save()
+        # elif 'save_school' in request.POST:
+        school_form = SchoolInformationForm(request.POST, request.FILES, instance=school_info)
+        if school_form.is_valid():
+            school = school_form.save(commit=False)
+            school.manager = manager_info
+            school.save()
 
-        elif 'save_level' in request.POST:
-            level_form = LevelEducationForm(request.POST, instance=level_info)
-            if level_form.is_valid():
-                level_form.save()
+        # elif 'save_level' in request.POST:
+        level_form = LevelEducationForm(request.POST, instance=level_info)
+        if level_form.is_valid():
+            level_form.save()
 
         # ریفرش فرم‌ها بعد از ذخیره
         profile_form = ManagerProfileForm(instance=manager_info)
@@ -63,7 +63,7 @@ def manager_dashboard(request):
         school_form = SchoolInformationForm(instance=school_info)
         level_form = LevelEducationForm(instance=level_info)
 
-    return render(request, 'accounts/manager_dashboard.html', {
+    return render(request, 'manager/manager_dashboard.html', {
         'profile_form': profile_form,
         'documents_form': documents_form,
         'school_form': school_form,

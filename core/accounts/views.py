@@ -109,7 +109,7 @@ def manager_dashboard(request):
     
     # total_school = ManagerInformation.objects.filter(manager = request.user )
     
-    return render(request, 'accounts/manager_dashboard.html' , {'data':None})
+    return render(request, 'manager/manager_dashboard.html' , {'data':None})
 
 # Student Dashboard
 @login_required

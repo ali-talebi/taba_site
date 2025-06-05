@@ -6,43 +6,50 @@
 <div class="container mt-5">
     <h2 class="mb-4">ثبت نام دانش آموز</h2>
     
-    <form method="post">
+    
+    <form method="post" novalidate action="{% url 'accounts:student_register' %}">
         {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="id_email">ایمیل:</label>
-            <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default:'' }}">
+
+        <!-- ایمیل -->
+        <div class="mb-3">
+            <label for="id_email" class="form-label">ایمیل</label>
+            <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default_if_none:'' }}" required>
             {% if form.email.errors %}
-                <div class="text-danger">{{ form.email.errors.0 }}</div>
+                <div class="error-message">{{ form.email.errors.0 }}</div>
             {% endif %}
         </div>
 
-        <div class="form-group">
-            <label for="id_full_name">نام کامل:</label>
-            <input type="text" name="full_name" id="id_full_name" class="form-control" value="{{ form.full_name.value|default:'' }}">
+        <!-- نام کامل -->
+        <div class="mb-3">
+            <label for="id_full_name" class="form-label">نام کامل</label>
+            <input type="text" name="full_name" id="id_full_name" class="form-control" value="{{ form.full_name.value|default_if_none:'' }}" required>
             {% if form.full_name.errors %}
-                <div class="text-danger">{{ form.full_name.errors.0 }}</div>
+                <div class="error-message">{{ form.full_name.errors.0 }}</div>
             {% endif %}
         </div>
 
-        <div class="form-group">
-            <label for="id_password1">رمز عبور:</label>
-            <input type="password" name="password1" id="id_password1" class="form-control">
+        <!-- رمز عبور -->
+        <div class="mb-3">
+            <label for="id_password1" class="form-label">رمز عبور</label>
+            <input type="password" name="password1" id="id_password1" class="form-control" minlength="8" required>
+            <div class="help-text">رمز عبور باید حداقل ۸ کاراکتر باشد.</div>
             {% if form.password1.errors %}
-                <div class="text-danger">{{ form.password1.errors.0 }}</div>
+                <div class="error-message">{{ form.password1.errors.0 }}</div>
             {% endif %}
         </div>
 
-        <div class="form-group">
-            <label for="id_password2">تکرار رمز عبور:</label>
-            <input type="password" name="password2" id="id_password2" class="form-control">
+        <!-- تکرار رمز عبور -->
+        <div class="mb-3">
+            <label for="id_password2" class="form-label">تکرار رمز عبور</label>
+            <input type="password" name="password2" id="id_password2" class="form-control" required>
             {% if form.password2.errors %}
-                <div class="text-danger">{{ form.password2.errors.0 }}</div>
+                <div class="error-message">{{ form.password2.errors.0 }}</div>
             {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-success">ثبت نام دانش آموز</button>
+        <button type="submit" class="btn btn-primary w-100 py-2">ثبت‌نام</button>
     </form>
+
 </div>
 
 <style>

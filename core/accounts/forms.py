@@ -2,8 +2,8 @@ from django import forms
 from .models import User
 
 class ManagerRegistrationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='رمز عبور', widget=forms.PasswordInput , min_length=8, help_text="رمز عبور باید حداقل ۸ کاراکتر باشد.")
+    password2 = forms.CharField(label='تکرار رمز عبور', widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -26,8 +26,8 @@ class ManagerRegistrationForm(forms.ModelForm):
 
 
 class StudentRegistrationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password1 = forms.CharField(widget=forms.PasswordInput , label=" رمز عبور" , min_length=8, help_text="رمز عبور باید حداقل ۸ کاراکتر باشد.")
+    password2 = forms.CharField(widget=forms.PasswordInput , label="تکرار رمز عبور" )
 
     class Meta:
         model = User

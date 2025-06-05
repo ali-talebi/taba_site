@@ -9,7 +9,7 @@
     <form method="post">
         {% csrf_token %}
         
-        <div class="form-group">
+        <div class="form-group" action="{% url 'accounts:manager_register'  %}">
             <label for="id_email">ایمیل:</label>
             <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default:'' }}">
             {% if form.email.errors %}

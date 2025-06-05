@@ -40,7 +40,7 @@ def manager_register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # اختیاری: بعد از ثبت نام وارد شود
-            return redirect('accounts:login')  # جایگزین کن با اسم url مناسب
+            return redirect('manager:manager_dashboard')  # جایگزین کن با اسم url مناسب
     else:
         form = ManagerRegistrationForm()
     

@@ -10,22 +10,22 @@
       <ul class="nav nav-tabs" id="authTabs" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="manager-login-tab" data-bs-toggle="tab" data-bs-target="#manager-login" type="button" role="tab">
-            Login - Manager
+            ورود  - مدیر
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="student-login-tab" data-bs-toggle="tab" data-bs-target="#student-login" type="button" role="tab">
-            Login - Student
+            ورود - دانش آموز
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="manager-register-tab" data-bs-toggle="tab" data-bs-target="#manager-register" type="button" role="tab">
-            Register - Manager
+            ثبت نام  - مدیر
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="student-register-tab" data-bs-toggle="tab" data-bs-target="#student-register" type="button" role="tab">
-            Register - Student
+            ثبت نام  - دانش آموز
           </button>
         </li>
       </ul>
@@ -75,7 +75,7 @@
         <div class="tab-pane fade" id="manager-register" role="tabpanel">
           <div class="form-container">
             <h4 class="text-center mb-4">🧑‍💼 Register as Manager</h4>
-            <form method="post" action="{% url 'accounts:student_login' %}">
+            <form method="post" action="{% url 'accounts:manager_register' %}">
               {% csrf_token %}
               <div class="mb-3">
                 <label>Email</label>
@@ -102,11 +102,48 @@
         <div class="tab-pane fade" id="student-register" role="tabpanel">
           <div class="form-container">
             <h4 class="text-center mb-4">🎓 Register as Student</h4>
-            <form method="post" action="{% url 'accounts:student_register' %}">
+            <form method="post" novalidate action="{% url 'accounts:student_register' %}">
               {% csrf_token %}
-              {{ student_form.as_p }}
-              <button type="submit" class="btn btn-success w-100">Register Student</button>
-            </form>
+  
+              <!-- ایمیل -->
+              <div class="mb-3">
+                  <label for="id_email" class="form-label">ایمیل</label>
+                  <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default_if_none:'' }}" required>
+                  {% if form.email.errors %}
+                      <div class="error-message">{{ form.email.errors.0 }}</div>
+                  {% endif %}
+              </div>
+  
+              <!-- نام کامل -->
+              <div class="mb-3">
+                  <label for="id_full_name" class="form-label">نام کامل</label>
+                  <input type="text" name="full_name" id="id_full_name" class="form-control" value="{{ form.full_name.value|default_if_none:'' }}" required>
+                  {% if form.full_name.errors %}
+                      <div class="error-message">{{ form.full_name.errors.0 }}</div>
+                  {% endif %}
+              </div>
+  
+              <!-- رمز عبور -->
+              <div class="mb-3">
+                  <label for="id_password1" class="form-label">رمز عبور</label>
+                  <input type="password" name="password1" id="id_password1" class="form-control" minlength="8" required>
+                  <div class="help-text">رمز عبور باید حداقل ۸ کاراکتر باشد.</div>
+                  {% if form.password1.errors %}
+                      <div class="error-message">{{ form.password1.errors.0 }}</div>
+                  {% endif %}
+              </div>
+  
+              <!-- تکرار رمز عبور -->
+              <div class="mb-3">
+                  <label for="id_password2" class="form-label">تکرار رمز عبور</label>
+                  <input type="password" name="password2" id="id_password2" class="form-control" required>
+                  {% if form.password2.errors %}
+                      <div class="error-message">{{ form.password2.errors.0 }}</div>
+                  {% endif %}
+              </div>
+  
+              <button type="submit" class="btn btn-primary w-100 py-2">ثبت‌نام</button>
+          </form>
           </div>
         </div>
 

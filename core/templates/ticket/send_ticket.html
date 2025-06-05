@@ -1,0 +1,32 @@
+{% extends "base_template/base_html.html" %}
+
+{% block main_content %}
+
+<div dir="rtl" class="bg-light">
+    <div class="container mt-5">
+        <div class="card p-4 shadow">
+            <h2 class="text-center mb-4">📨 ارسال تیکت جدید</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_title" class="form-label">عنوان:</label>
+                    <input type="text" name="title" class="form-control" id="id_title" value="{{ form.title.value|default:'' }}">
+                    {% if form.title.errors %}
+                        <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_text" class="form-label">متن پیام:</label>
+                    <textarea name="text" class="form-control" id="id_text" rows="5">{{ form.text.value|default:'' }}</textarea>
+                    {% if form.text.errors %}
+                        <div class="text-danger small mt-1">{{ form.text.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">ارسال</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}

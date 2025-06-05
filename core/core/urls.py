@@ -25,7 +25,8 @@ urlpatterns = [
     path('manager/' , include('manager.urls')) , 
     path('student/' , include('student.urls')) , 
     path('enrollment/' , include('Academic.urls')) , 
-]
+    path('ticket/' , include('ticketing.urls')) , 
 
+]
 if settings.DEBUG : 
     urlpatterns += static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)

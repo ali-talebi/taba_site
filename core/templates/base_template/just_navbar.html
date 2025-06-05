@@ -66,24 +66,22 @@
           <!-- Home Dropdown -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-house-door-fill"></i> Home
+              <i class="bi bi-house-door-fill"></i> خانه
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">📊 Dashboard</a></li>
-              <li><a class="dropdown-item" href="#">⚙️ Site Settings</a></li>
-              <li><a class="dropdown-item" href="#">📈 Analytics</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:login' %}">📊 صفحه اصلی  </a></li>
             </ul>
           </li>
   
           <!-- School Profile -->
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="#"><i class="bi bi-building"></i> School Profile</a>
-          </li>
+          </li> {% endcomment %}
   
           <!-- Manage Students -->
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="#"><i class="bi bi-person-lines-fill"></i> Manage Students</a>
-          </li>
+          </li> {% endcomment %}
   
         </ul>
   

@@ -39,11 +39,13 @@ def school_info_form_view(request):
     school_info, _ = SchoolInformation.objects.get_or_create(manager=manager_info)
     school_form = SchoolInformationForm(instance=school_info)
 
+    if school_info.status == 'approved' : 
+        return redirect('manager:school_status_view')
     if request.method == 'POST':
         school_form = SchoolInformationForm(request.POST, request.FILES, instance=school_info)
         if school_form.is_valid():
             school_form.save()
-            return redirect('manager:manager_dashboard')
+            return redirect('manager:school_status_view')
 
     provinces = Province.objects.all()
 
@@ -53,6 +55,16 @@ def school_info_form_view(request):
     })
     
     
+
+@login_required
+def school_status_view(request):
+    manager_info = ManagerInformation.objects.get(client_manager=request.user)
+    school_info = SchoolInformation.objects.filter(manager=manager_info).first()
+
+    return render(request, 'manager/school_status.html', {
+        'school_info': school_info
+    })    
+
 
 @login_required
 def documents_form_view(request):

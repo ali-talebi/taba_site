@@ -6,9 +6,9 @@ class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentInformation
         fields = ['phone', 'address']
-        labels = {
-            'phone': 'شماره تماس',
-            'address': 'استان'
+        widgets = {
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.Select(attrs={'class': 'form-select'}),  # 👈 همینجا مهمه
         }
 
 # فرم مدارک هویتی

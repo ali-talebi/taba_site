@@ -15,6 +15,7 @@ class ManagerProfileForm(forms.ModelForm):
         }
         widgets = {
             'address2': forms.Textarea(attrs={'rows': 3}),
+            'address': forms.Select(attrs={'class': 'form-select'}) , 
         }
 
 class ManagerDocumentsForm(forms.ModelForm):
@@ -38,7 +39,10 @@ class SchoolInformationForm(forms.ModelForm):
             'logo': 'لوگوی مدرسه',
             'address': 'استان',
         }
-        
+        widgets = {
+            'address': forms.Select(attrs={'class': 'form-select'}),
+        }
+
         
 class LevelEducationForm(forms.ModelForm):
     fields = forms.ModelMultipleChoiceField(

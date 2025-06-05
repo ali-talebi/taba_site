@@ -5,6 +5,7 @@ from .views import (
     school_info_form_view,
     # school_level_form_view,
     documents_form_view,
+    school_status_view , 
 )
 
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('school/info/', school_info_form_view, name='school_info_form'),
     # path('manager/school/level/', school_level_form_view, name='school_level_form'),
     path('manager/documents/', documents_form_view, name='documents_form'),
+    path('school/status/' , school_status_view , name='school_status_view')
 ]

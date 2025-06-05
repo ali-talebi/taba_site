@@ -1,0 +1,33 @@
+{% extends "base_template/base_html.html" %}
+{% block main_content %}
+<body class="bg-gray-100 font-sans">
+    <div class="max-w-lg mx-auto mt-20 p-6 bg-white rounded-xl shadow-md text-center">
+        <h2 class="text-2xl font-bold mb-6">📋 وضعیت ثبت‌نام مدرسه شما</h2>
+
+        {% if school_info %}
+            <p class="mb-4"><strong>نام مدرسه:</strong> {{ school_info.school_name }}</p>
+
+            <p class="mb-4">
+                <strong>وضعیت:</strong>
+                {% if school_info.status == 'approved' %}
+                    <span class="text-green-600 font-semibold">تایید شده ✅</span>
+                {% elif school_info.status == 'pending' %}
+                    <span class="text-yellow-600 font-semibold">در انتظار تایید ⏳</span>
+                {% elif school_info.status == 'rejected' %}
+                    <span class="text-red-600 font-semibold">رد شده ❌</span>
+                {% else %}
+                    <span>نامشخص</span>
+                {% endif %}
+            </p>
+
+            {% if school_info.status == 'pending' %}
+                <p>لطفا صبر کنید تا اطلاعات مدرسه شما بررسی و تایید شود.</p>
+            {% elif school_info.status == 'rejected' %}
+                <p>متاسفانه اطلاعات مدرسه تایید نشده است. لطفا با پشتیبانی تماس بگیرید.</p>
+            {% endif %}
+            
+        {% else %}
+            <p>شما هنوز اطلاعات مدرسه خود را ثبت نکرده‌اید.</p>
+        {% endif %}
+    </div>
+{% endblock main_content %}

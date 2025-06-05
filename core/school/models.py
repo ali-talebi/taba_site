@@ -43,10 +43,18 @@ class Field_Education_School(models.Model):
         verbose_name_plural = 'رشته های تحصیلی مدرسه '
 
 class SchoolInformation(models.Model):
+    
+    status_level = (
+        ('approved','approved'),
+        ('pending','pending'),
+        ('rejected','rejected'),
+    )
+    
     school_name = models.CharField(verbose_name="نام مدرسه", max_length=100)
     logo = models.FileField(verbose_name="لوگوی مدرسه", null=True, blank=True, upload_to="SchoolInformation")
     manager = models.OneToOneField(ManagerInformation, verbose_name="مدیر مدرسه", on_delete=models.SET_NULL, null=True)
     address = models.ForeignKey(Province, verbose_name='آدرس', on_delete=models.SET_NULL, null=True)
+    status = models.CharField(max_length=20,verbose_name='آیا مدرسه مورد تایید میباشد ؟ ' , choices=status_level , default='pending' , null = True ) 
 
     def __str__(self):
         return f'{self.school_name} - {self.address}'

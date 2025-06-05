@@ -23,6 +23,6 @@ class LevelEducationAdmin(admin.ModelAdmin):
 
 @admin.register(SchoolInformation)
 class SchoolInformation_Admin(admin.ModelAdmin):
-    list_display = ('school_name' , 'manager' , 'address' ) 
-    list_filter  = ('address' , ) 
+    list_display = ('school_name' , 'manager' , 'address' , 'status') 
+    list_filter  = ('address' , 'status' ) 
     search_fields = ('school_name' , )

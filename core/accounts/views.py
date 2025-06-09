@@ -124,3 +124,8 @@ def student_dashboard(request):
     if request.user.user_type != 'student':
         return redirect('accounts:manager_dashboard')
     return render(request, 'accounts/student_login.html' , {})
+
+
+
+def custom_404_handler(request, exception):
+    return render(request, 'page404/404.html', status=404)

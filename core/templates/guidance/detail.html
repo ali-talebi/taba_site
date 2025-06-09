@@ -1,0 +1,21 @@
+{% extends 'base_template/base_html.html' %}
+
+
+{% block main_content %}
+  <style>
+    body { font-family: 'Vazirmatn', sans-serif; direction: rtl; padding: 20px; background: #fafafa; }
+    h1 { color: #222; }
+    .date { color: #888; margin-bottom: 20px; }
+    .content { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; line-height: 1.6; }
+    a.back-link { display: inline-block; margin-top: 20px; text-decoration: none; color: #0275d8; }
+    a.back-link:hover { text-decoration: underline; }
+  </style>
+
+  <h1>{{ announcement.title }}</h1>
+  <div class="date">منتشر شده در: {{ announcement.published_at|date:"Y/m/d H:i" }}</div>
+  <div class="content">
+    {{ announcement.content|safe|linebreaks }}
+  </div>
+  <a class="back-link" href="{% url 'guidance:total_news' %}">&larr; بازگشت به لیست اخبار</a>
+
+{% endblock main_content %}

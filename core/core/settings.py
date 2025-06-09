@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-^388*)%hot9%#8ypoq$r%%3q-)hvo200f!(zowsy_kd34+hup$
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+# DEBUG = False
 ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['avicenna-register.ir' , 'www.avicenna-register.ir']
 
 
 # Application definition
@@ -47,6 +48,12 @@ INSTALLED_APPS = [
     'school.apps.SchoolConfig'   ,  
     'Academic.apps.AcademicConfig' , 
     'ticketing.apps.TicketingConfig',
+    'guidance.apps.GuidanceConfig',
+    
+    ### helpers
+    'ckeditor',
+    'ckeditor_uploader',
+    
     
 ]
 
@@ -134,9 +141,11 @@ STATIC_URL = 'static/'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR , 'static')  , )
 STATIC_ROOT = os.path.join(BASE_DIR , "staticfiles")
+# STATIC_ROOT = "/home/avicennaregister/public_html/static"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = "media/"
+# MEDIA_ROOT = "/home/avicennaregister/public_html/media"
 
 
 # Default primary key field type
@@ -149,3 +158,17 @@ AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailBackend',
 ]
+
+
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
+
+
+CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'

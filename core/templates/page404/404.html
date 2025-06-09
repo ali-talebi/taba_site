@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>صفحه 404 با سیاره و ستاره‌های کل صفحه</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: black;
+    overflow: hidden;
+    color: white;
+    font-family: 'Vazirmatn', sans-serif;
+    text-align: center;
+    direction: rtl;
+  }
+  #info {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    font-size: 24px;
+    text-shadow: 0 0 10px #66f;
+    z-index: 10;
+  }
+  canvas {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+  }
+  button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #ff4081;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff4081;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #ff70a4;
+  }
+</style>
+</head>
+<body>
+  <div id="info">
+    <h1>۴۰۴ - صفحه پیدا نشد</h1>
+    <p>گم شدی وسط کهکشان؟ یه سیاره ساده ببین!</p>
+    <button onclick="playMusicAndRedirect()">بازگشت به خانه</button>
+  </div>
+
+  <canvas id="space"></canvas>
+
+  <audio id="bg-music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/14/audio_2d8e2e86b0.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d');
+
+    // تنظیم سایز canvas به کل صفحه
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // ستاره‌ها
+    const stars = [];
+    const starCount = 200;
+
+    function createStars() {
+      stars.length = 0;
+      for (let i = 0; i < starCount; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 0.5,
+          speed: Math.random() * 0.3 + 0.1,
+        });
+      }
+    }
+    createStars();
+
+    let angle = 0;
+
+    function drawMicrophone(x, y, scale=1) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(scale, scale);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+
+      // بدنه میکروفون
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 12, 18, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // خط پایین میکروفون
+      ctx.beginPath();
+      ctx.moveTo(0, 18);
+      ctx.lineTo(0, 28);
+      ctx.stroke();
+
+      // پایه میکروفون
+      ctx.beginPath();
+      ctx.moveTo(-10, 28);
+      ctx.lineTo(10, 28);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function draw() {
+      // پس زمینه سیاه
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // ستاره‌ها
+      ctx.fillStyle = 'white';
+      stars.forEach(star => {
+        star.x -= star.speed;
+        if (star.x < 0) star.x = canvas.width;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // سیاره زحل پایین‌تر
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height - 180; // پایین صفحه (از بالا فاصله داره)
+      const radius = 80;
+
+      // سیاره
+      let gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.1, centerX, centerY, radius);
+      gradient.addColorStop(0, '#d2b48c');
+      gradient.addColorStop(1, '#8b6a3a');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // حلقه زحل (بیضی)
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(angle * 0.5);
+      ctx.strokeStyle = 'rgba(255, 255, 204, 0.7)';
+      ctx.lineWidth = 10;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, radius + 30, radius / 3, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // رسم میکروفون روی سیاره
+      drawMicrophone(centerX, centerY);
+
+      angle += 0.01;
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    function playMusicAndRedirect() {
+      const music = document.getElementById('bg-music');
+      music.play();
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 4000);
+    }
+  </script>
+</body>
+</html>

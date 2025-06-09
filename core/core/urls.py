@@ -26,7 +26,12 @@ urlpatterns = [
     path('student/' , include('student.urls')) , 
     path('enrollment/' , include('Academic.urls')) , 
     path('ticket/' , include('ticketing.urls')) , 
+    path('guidance/',include('guidance.urls')),
+    path('ckeditor/' , include('ckeditor_uploader.urls')) ,
 
 ]
 if settings.DEBUG : 
     urlpatterns += static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
+    
+    
+handler404 = 'accounts.views.custom_404_handler'
